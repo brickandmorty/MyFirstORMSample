@@ -17,21 +17,35 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Book bNeu =new  Book();
-        bNeu.setIsbn("aldjlsdf");
+        /*
+      Kleidungsstueck ks = new Kleidungsstueck();
+      ks.setBezeichnung("Schal");
+      ks.setFarbe("Grün");
+*/
+        KleidungsstueckDAO dao=new KleidungsstueckDAO();
+        //transiend - ruft session.persist auf
+        //dao.save(ks);
+
+        Kleidungsstueck ksx =dao.findById(5L);
+        dao.delete(ksx);
+
+        Kleidungsstueck ksCopy =new Kleidungsstueck(); //transient
+        ksCopy.setFarbe(ksx.getFarbe());
+        ksCopy.setBezeichnung(ksx.getBezeichnung());
+        ksCopy.setFarbe("GElb");
+        dao.save(ksCopy);
 
 
         // Hibernate SessionFactory erzeugen
         sessionFactory = new Configuration().configure().buildSessionFactory();
 
-        // User einfügen
-        /*
+
         insertUser("Max", "maxi123");
         insertUser("Anna", "annie");
 
         // Alle User auslesen
         listAllUsers();
-        */
+
 
         /*
         // Books einfügen
@@ -84,6 +98,7 @@ public class Main {
             System.out.println("User gespeichert: " + user);
         } catch (Exception e) {
             e.printStackTrace();
+
         }
     }
 
@@ -91,7 +106,8 @@ public class Main {
     public static void listAllUsers() {
         try (Session session = sessionFactory.openSession()) {
             List<User> users;
-            users = session.createQuery("from User", User.class).list();
+            users = session.createQuery("SELECT u.firstname from User u", User.class)
+                    .list();
             System.out.println("Alle User aus der DB:");
             for (User u : users) {
                 System.out.println(u);
