@@ -1,0 +1,7 @@
+Schrankverwaltung
+- Tabelle: Schrank (ID - Identiy, Standort (Wohnzimmer, Vorraum, Küche), MaxAnzahlAnKleidungsstuekcen)
+- über Annotations als Entity zur Verfügung stellen
+
+In Hibernate.cfg.xml ergänzen
+
+SchrankverwaltungDAO mit insert, update, delete, search --sucheAlleSchraenke(String ort)
