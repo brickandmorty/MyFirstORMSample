@@ -8,7 +8,7 @@ public class HibernateUtil {
 
     private static SessionFactory sessionFactory;
 
-    public static SessionFactory getSessionFactory() {
+    public static SessionFactory getSessionFactoryOld() {
         if (sessionFactory == null) {
             Configuration cfg = new Configuration().configure();
             cfg.addAnnotatedClass(Kleidungsstueck.class);
@@ -17,6 +17,13 @@ public class HibernateUtil {
                     new StandardServiceRegistryBuilder()
                             .applySettings(cfg.getProperties())
                             .build());
+        }
+        return sessionFactory;
+    }
+
+    public static SessionFactory getSessionFactory() {
+        if (sessionFactory == null) {
+            sessionFactory = new Configuration().configure().buildSessionFactory();
         }
         return sessionFactory;
     }

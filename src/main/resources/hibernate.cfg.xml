@@ -17,6 +17,7 @@
         <mapping class="at.campus02.dbp.model.User"/>
         <mapping class="at.campus02.dbp.model.Kleidungsstueck"/>
         <mapping class="at.campus02.dbp.model.FavoriteBook"/>
+        <mapping class="at.campus02.dbp.model.Schrank"/>
         <mapping resource="Book.hbm.xml"/>
     </session-factory>
 </hibernate-configuration>

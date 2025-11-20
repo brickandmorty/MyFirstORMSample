@@ -1,9 +1,6 @@
 package at.campus02.dbp;
 
-import at.campus02.dbp.model.Book;
-import at.campus02.dbp.model.FavoriteBook;
-import at.campus02.dbp.model.Kleidungsstueck;
-import at.campus02.dbp.model.User;
+import at.campus02.dbp.model.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -17,14 +14,28 @@ public class Main {
 
     public static void main(String[] args) {
 
-        /*
+        Schrank s1 =new  Schrank();
+        s1.setStandort(Standort.WOHNZIMMER);
+        s1.setMaxAnzahlAnKleidungsstuecken(50);
+        SchrankDAOImpl schrankDAOImpl = new SchrankDAOImpl();
+        schrankDAOImpl.save(s1);
+         /*
+
       Kleidungsstueck ks = new Kleidungsstueck();
-      ks.setBezeichnung("Schal");
-      ks.setFarbe("Grün");
-*/
+      ks.setBezeichnung("Handschuhe");
+      ks.setFarbe("Rot");
+
+
+
         KleidungsstueckDAO dao=new KleidungsstueckDAO();
         //transiend - ruft session.persist auf
-        //dao.save(ks);
+        dao.save(ks);
+        ks.setFarbe("Orange");
+       dao.update(ks); //merge von Hibernate
+
+        Kleidungsstueck orangeHandschuhe =  dao.findById(9L);
+        orangeHandschuhe.setFarbe("Grün");
+        dao.update(orangeHandschuhe);
 
         Kleidungsstueck ksx =dao.findById(5L);
         dao.delete(ksx);
@@ -68,7 +79,7 @@ public class Main {
         listAllFavoriteBooks();
 
 
-*/
+
 
         TestKleidungsstuecke();
 
@@ -77,10 +88,10 @@ public class Main {
         k1.setBezeichnung("Hose");
         k1.setFarbe("Blau");
         k.update(k1);
-
+*/
 
                 // SessionFactory schließen
-        sessionFactory.close();
+        //sessionFactory.close();
     }
 
     // Methode zum Einfügen eines Users
