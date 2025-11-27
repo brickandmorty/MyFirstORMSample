@@ -11,6 +11,6 @@ SchrankverwaltungDAO mit insert, update, delete,
 
 Pause bis 09:40 Uhr - danach "Schrankverwaltung"
 
-HQL verwenden
-
+HQL verwenden 27.11.2025
+https://www.tutorialspoint.com/hibernate/hibernate_query_language.htm
 WHERE, GROUP BY, Aggregate, Pagination , ORDER BY, Alias,

@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.Arrays;
 import java.util.List;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
@@ -13,7 +14,7 @@ public class Main {
     private static SessionFactory sessionFactory;
 
     public static void main(String[] args) {
-
+/*
         Schrank s1 =new  Schrank();
         s1.setStandort(Standort.WOHNZIMMER);
         s1.setMaxAnzahlAnKleidungsstuecken(50);
@@ -22,8 +23,15 @@ public class Main {
         Schrank s2 = schrankDAOImpl.findById(s1.getId());
         s2.setStandort(Standort.KUECHE);
        // schrankDAOImpl.save(s2); //Fehler weil detacted
-        schrankDAOImpl.update(s2); //Fehler weil detacted
-        List ergebnis = schrankDAOImpl.getAlleSchraenke();
+        schrankDAOImpl.update(s2); //OK
+*/
+        SchrankQuery schrankQuery =new SchrankQuery();
+        List<Schrank> ergebnis = schrankQuery.getAlleSchraenke();
+        for (Schrank schrank : ergebnis) {
+            System.out.println(schrank);
+        };
+
+
          /*
 
       Kleidungsstueck ks = new Kleidungsstueck();
