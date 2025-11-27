@@ -1,10 +1,12 @@
 package at.campus02.dbp;
 
 import at.campus02.dbp.model.*;
+import at.campus02.dbp.sampleRelationship.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,7 +16,14 @@ public class Main {
     private static SessionFactory sessionFactory;
 
     public static void main(String[] args) {
-/*
+
+        //BeispielKleidngsstuecke();
+        //BeispielSchrank();
+        BeispielHQL();
+        //BeispielUserBooks();
+    }
+
+    public static void BeispielSchrank(){
         Schrank s1 =new  Schrank();
         s1.setStandort(Standort.WOHNZIMMER);
         s1.setMaxAnzahlAnKleidungsstuecken(50);
@@ -22,21 +31,13 @@ public class Main {
         schrankDAOImpl.save(s1);
         Schrank s2 = schrankDAOImpl.findById(s1.getId());
         s2.setStandort(Standort.KUECHE);
-       // schrankDAOImpl.save(s2); //Fehler weil detacted
+        // schrankDAOImpl.save(s2); //Fehler weil detacted
         schrankDAOImpl.update(s2); //OK
-*/
-        SchrankQuery schrankQuery =new SchrankQuery();
-        List<Schrank> ergebnis = schrankQuery.getAlleSchraenke();
-        for (Schrank schrank : ergebnis) {
-            System.out.println(schrank);
-        };
-
-
-         /*
-
-      Kleidungsstueck ks = new Kleidungsstueck();
-      ks.setBezeichnung("Handschuhe");
-      ks.setFarbe("Rot");
+    }
+    public static void BeispielKleidngsstuecke(){
+        Kleidungsstueck ks = new Kleidungsstueck();
+        ks.setBezeichnung("Handschuhe");
+        ks.setFarbe("Rot");
 
 
 
@@ -44,7 +45,7 @@ public class Main {
         //transiend - ruft session.persist auf
         dao.save(ks);
         ks.setFarbe("Orange");
-       dao.update(ks); //merge von Hibernate
+        dao.update(ks); //merge von Hibernate
 
         Kleidungsstueck orangeHandschuhe =  dao.findById(9L);
         orangeHandschuhe.setFarbe("Grün");
@@ -58,55 +59,176 @@ public class Main {
         ksCopy.setBezeichnung(ksx.getBezeichnung());
         ksCopy.setFarbe("GElb");
         dao.save(ksCopy);
-
-
-        // Hibernate SessionFactory erzeugen
-        sessionFactory = new Configuration().configure().buildSessionFactory();
-
-
-        insertUser("Max", "maxi123");
-        insertUser("Anna", "annie");
-
-        // Alle User auslesen
-        listAllUsers();
-
-
-        /*
-        // Books einfügen
-        insertBook("978-3-16-148410-0", "Hibernate Basics");
-        insertBook("978-1-23-456789-7", "Advanced Hibernate");
-
-        // Alle Books auslesen
-        listAllBooks();
-        */
-      //  listAllUserAliases();
-
-        //System.out.println("User: " + getUserWithId_createQuery(1));
-        //System.out.println("User: " + getUserWithId_session_get(1));
-
-        /*
-        User user1 = getUserWithId_session_get(1);
-        Book book1 = getBookWithId_session_get(2);
-
-        addFavoriteBook(user1,book1,9);
-        listAllFavoriteBooks();
-
-
-
-
-        TestKleidungsstuecke();
-
+    }
+    public static void KleidungsstueckDAO(){
         KleidungsstueckDAO k = new KleidungsstueckDAO();
         Kleidungsstueck k1 = new Kleidungsstueck();
         k1.setBezeichnung("Hose");
         k1.setFarbe("Blau");
         k.update(k1);
-*/
+    }
+    public static void BeispielUserBooks()
+    {
+        insertUser("Max", "maxi123");
+        insertUser("Anna", "annie");
+        listAllUsers();
+        // Books einfügen
+        insertBook("978-3-16-148410-0", "Hibernate Basics");
+        insertBook("978-1-23-456789-7", "Advanced Hibernate");
 
-                // SessionFactory schließen
-        //sessionFactory.close();
+
+        listAllBooks();
+        listAllUserAliases();
+
+
+        User user1 = getUserWithId_session_get(1);
+        Book book1 = getBookWithId_session_get(2);
+
+        addFavoriteBook(user1,book1,9);
+        listAllFavoriteBooks();
+    }
+    public static void BeispielHQL(){
+
+        /*HQL verwenden 27.11.2025
+        https://www.tutorialspoint.com/hibernate/hibernate_query_language.htm
+        WHERE, GROUP BY, Aggregate, Pagination , ORDER BY, Alias,*/
+
+        SchrankQuery schrankQuery =new SchrankQuery();
+
+        List<Object[]> aggErgebnis= schrankQuery.groupSchrankByOrt(Standort.WOHNZIMMER);
+
+
+        List<Schrank> pagList = schrankQuery.showSchrankPagination();
+        System.out.println("Alle Pag");
+        for (Schrank schrank : pagList) {
+            System.out.println(schrank);
+        };
+
+        List<Schrank> schraenkeSortiert = schrankQuery.findAllOrderedByMaxAmount(false);
+        System.out.println("Alle Schränke sortiert:");
+        for (Schrank schrank : schraenkeSortiert) {
+            System.out.println(schrank);
+        };
+
+
+        List<Schrank> schraenkeSortiertImWohnzimmer = schrankQuery.getAlleSchraenkeWhere(Standort.WOHNZIMMER);
+
+        List<Schrank> ergebnisAlle = schrankQuery.getAlleSchraenke();
+        System.out.println("Alle Schränke:");
+        for (Schrank schrank : ergebnisAlle) {
+            System.out.println(schrank);
+        };
+
+        List<Schrank> ergebnisWohnzimmer = schrankQuery.findSchraenkeByStandort(Standort.WOHNZIMMER);
+        System.out.println("Schränke im Wohnzimmer:");
+        for (Schrank schrank : ergebnisWohnzimmer) {
+            System.out.println(schrank);
+        };
+
+        List<Schrank> ergebnisCriteria = schrankQuery.findSchraenkeByStandortCriteria(Standort.WOHNZIMMER);
+        System.out.println("Schränke im ergebnisCriteria:");
+        for (Schrank schrank : ergebnisCriteria) {
+            System.out.println(schrank);
+        };
+
+        List<Schrank> ergebnisWhereV2 = schrankQuery.findSchraenkeByStandortUndMaxAnzahl(Standort.WOHNZIMMER,60);
+        System.out.println("Schränke im ergebnisWhereV2:");
+        for (Schrank schrank : ergebnisWhereV2) {
+            System.out.println(schrank);
+        };
+
+        List<Schrank> ergebnisCriterieV2 = schrankQuery.findSchraenkeByStandortUndMaxAnzahlCriteria(Standort.WOHNZIMMER,60);
+        System.out.println("Schränke im ergebnisCriterieV2:");
+        for (Schrank schrank : ergebnisCriterieV2) {
+            System.out.println(schrank);
+        };
     }
 
+    public static void BeispielDepartmentEmployees(){
+        Department d1 =new Department();
+        d1.setDepartmentName("Softwareentwicklung");
+        Employee e1 =new Employee();
+        e1.setFirstName("Anna");
+
+        Employee e2 = new Employee();
+        e2.setFirstName("Inna");
+
+        // 3) Employees dem Department zuordnen
+        List<Employee> mitarbeiter = new ArrayList<>();
+        mitarbeiter.add(e1);
+        mitarbeiter.add(e2);
+        d1.setEmployees(mitarbeiter);
+
+        DepartmentDAO deptarmentDAO =new DepartmentDAO();
+        // deptarmentDAO.save(d1);
+
+        Department ausDb = deptarmentDAO.findById(1L);
+
+        System.out.println("Department: " + ausDb.getDepartmentName());
+        System.out.println("Mitarbeiter:");
+
+        //Bei Eager
+        if (ausDb.getEmployees() != null) {
+            for (Employee e : ausDb.getEmployees()) {
+                System.out.println(" - " + e.getFirstName() + " (ID: " + e.getId() + ")");
+            }
+        } else {
+            System.out.println("Keine Mitarbeiter gefunden.");
+        }
+
+        System.out.println("Mitarbeiter:");
+        for (Employee e : ausDb.getEmployees()) {
+            System.out.println(" - " + e.getFirstName());
+        }
+
+        //ohne Eager
+        ausDb = deptarmentDAO.findByIdWithEmployees(1L);
+
+        System.out.println("Department: " + ausDb.getDepartmentName());
+        System.out.println("Mitarbeiter:");
+        for (Employee e : ausDb.getEmployees()) {
+            System.out.println(" - " + e.getFirstName());
+        }
+    }
+    public static void BeispielVorlesungStudent(){
+
+        VorlesungDAO vorlesungDAO = new VorlesungDAO();
+
+        // 1) Vorlesung anlegen
+        Vorlesung v1 = new Vorlesung();
+        v1.setTitel("Einführung in Hibernate");
+
+        // 2) Studierende anlegen
+        Student s1 = new Student();
+        s1.setVorname("Anna");
+
+        Student s2 = new Student();
+        s2.setVorname("Lukas");
+
+        // 3) Beziehung setzen (BEIDSEITIG über Helper-Methode)
+        v1.addStudent(s1);
+        v1.addStudent(s2);
+
+        // 4) speichern -> cascade = ALL speichert auch die Studenten
+        vorlesungDAO.save(v1);
+
+        // ========================
+        // Navigation 1 -> n Seite
+        // ========================
+        Vorlesung vorlesungAusDb = vorlesungDAO.findById(1L);
+        System.out.println("Vorlesung: " + vorlesungAusDb.getTitel());
+        System.out.println("Studierende der Vorlesung:");
+        vorlesungAusDb.getStudierende().forEach(st ->
+                System.out.println(" - " + st.getVorname() + " (ID: " + st.getId() + ")")
+        );
+
+
+        Student studentAusDB = vorlesungAusDb.getStudierende().get(0);
+        System.out.println("Student: " + studentAusDB.getVorname());
+        System.out.println("gehört zu Vorlesung: " + studentAusDB.getVorlesung().getTitel());
+
+
+    }
     // Methode zum Einfügen eines Users
     public static void insertUser(String firstname, String alias) {
         try (Session session = sessionFactory.openSession()) {
