@@ -1,4 +1,5 @@
 package at.campus02.dbp;
+
 import at.campus02.dbp.model.Kleidungsstueck;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -26,5 +27,11 @@ public class HibernateUtil {
             sessionFactory = new Configuration().configure().buildSessionFactory();
         }
         return sessionFactory;
+    }
+
+    public static void shutdown() {
+        if (sessionFactory != null) {
+            sessionFactory.close();
+        }
     }
 }

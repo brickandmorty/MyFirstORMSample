@@ -187,9 +187,9 @@ public class HQLQueryExamples {
         return query.getSingleResult();
     }
 
-    public Double getTotalCapacityOfAllSchraenke() {
+    public Long getTotalCapacityOfAllSchraenke() {
         String hql = "SELECT SUM(s.maxAnzahlAnKleidungsstuecken) FROM Schrank s";
-        Query<Double> query = session.createQuery(hql, Double.class);
+        Query<Long> query = session.createQuery(hql, Long.class);
         return query.getSingleResult();
     }
 

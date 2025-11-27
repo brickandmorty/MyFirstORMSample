@@ -39,7 +39,6 @@ public class HQLQueryDemo {
             e.printStackTrace();
         } finally {
             session.close();
-            HibernateUtil.shutdown();
         }
     }
 
@@ -162,7 +161,7 @@ public class HQLQueryDemo {
         System.out.println("8. Einzelne Aggregations-Ergebnisse:");
         System.out.println("--- Gesamtanzahl Schränke: " + hqlExamples.countAllSchraenke());
         System.out.println("--- Gesamtanzahl Kleidungsstücke: " + hqlExamples.countAllKleidungsstuecke());
-        System.out.printf("--- Gesamtkapazität aller Schränke: %.0f%n", hqlExamples.getTotalCapacityOfAllSchraenke());
+        System.out.println("--- Gesamtkapazität aller Schränke: " + hqlExamples.getTotalCapacityOfAllSchraenke());
         System.out.printf("--- Durchschnittliche Kapazität: %.2f%n", hqlExamples.getAverageCapacityOfSchraenke());
         System.out.println("--- Maximale Kapazität: " + hqlExamples.getMaxCapacityOfSchraenke());
         System.out.println("--- Minimale Kapazität: " + hqlExamples.getMinCapacityOfSchraenke());
