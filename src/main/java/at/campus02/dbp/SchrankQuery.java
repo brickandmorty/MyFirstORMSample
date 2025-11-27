@@ -66,4 +66,15 @@ public class SchrankQuery implements SchrankDAO {
             tx.commit();
         }
     }
+
+    public List getAlleSchraenke(){
+        try (Session session = HibernateUtil.getSessionFactory().openSession()) {
+
+            String hql = "select  s.id, s.standort FROM Schrank AS s ";
+            Query query = session.createQuery(hql);
+            List results = query.list();
+            return  results;
+        }
+
+    }
 }

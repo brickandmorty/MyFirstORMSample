@@ -18,4 +18,6 @@ public interface SchrankDAO {
 
     void deleteById(Long id);
 
+    List getAlleSchraenke();
+
 }

@@ -10,3 +10,7 @@ SchrankverwaltungDAO mit insert, update, delete,
 
 
 Pause bis 09:40 Uhr - danach "Schrankverwaltung"
+
+HQL verwenden
+
+WHERE, GROUP BY, Aggregate, Pagination , ORDER BY, Alias,

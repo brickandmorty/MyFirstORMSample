@@ -19,6 +19,11 @@ public class Main {
         s1.setMaxAnzahlAnKleidungsstuecken(50);
         SchrankDAOImpl schrankDAOImpl = new SchrankDAOImpl();
         schrankDAOImpl.save(s1);
+        Schrank s2 = schrankDAOImpl.findById(s1.getId());
+        s2.setStandort(Standort.KUECHE);
+       // schrankDAOImpl.save(s2); //Fehler weil detacted
+        schrankDAOImpl.update(s2); //Fehler weil detacted
+        List ergebnis = schrankDAOImpl.getAlleSchraenke();
          /*
 
       Kleidungsstueck ks = new Kleidungsstueck();

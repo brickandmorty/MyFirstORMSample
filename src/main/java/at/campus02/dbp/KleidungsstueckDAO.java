@@ -3,9 +3,14 @@ package at.campus02.dbp;
 import at.campus02.dbp.model.Kleidungsstueck;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
+import java.util.List;
 
 public class KleidungsstueckDAO {
 
+
+    //umbuchen(b1, 500, b2)
     //Transiente Entity - neue Entität
     public void save(Kleidungsstueck ks) {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -35,4 +40,6 @@ public class KleidungsstueckDAO {
             tx.commit();
         } //removed
     }
+
+
 }
